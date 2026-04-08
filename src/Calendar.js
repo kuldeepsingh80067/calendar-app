@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 
-const monthNames = [
+const months = [
   "January","February","March","April","May","June",
   "July","August","September","October","November","December"
 ];
 
-const images = [
+// simple images (one per month)
+const monthImages = [
   "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee",
   "https://images.unsplash.com/photo-1501785888041-af3ef285b470",
   "https://images.unsplash.com/photo-1491553895911-0055eca6402d",
@@ -20,161 +21,179 @@ const images = [
   "https://images.unsplash.com/photo-1483683804023-6ccdb62f86ef"
 ];
 
-const Calendar = () => {
-  const [month, setMonth] = useState(4); // May (0 index)
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
-  const [note, setNote] = useState("");
+function Calendar() {
+  const [month, setMonth] = useState(new Date().getMonth());
+  const [year, setYear] = useState(new Date().getFullYear());
+
+  const [start, setStart] = useState(null);
+  const [end, setEnd] = useState(null);
+
+  const [text, setText] = useState("");
   const [notes, setNotes] = useState([]);
 
-  const days = Array.from({ length: 31 }, (_, i) => i + 1);
-
+  // load notes from localStorage
   useEffect(() => {
-    const saved = JSON.parse(localStorage.getItem("notes")) || [];
-    setNotes(saved);
+    const saved = JSON.parse(localStorage.getItem("notes"));
+    if (saved) setNotes(saved);
   }, []);
 
-  const handleClick = (day) => {
-    if (!startDate) {
-      setStartDate(day);
-    } else if (!endDate) {
-      setEndDate(day);
+  // save notes
+  const handleSave = () => {
+    if (!text || !start) return;
+
+    const newNote = {
+      month,
+      year,
+      start,
+      end,
+      text
+    };
+
+    const updated = [...notes, newNote];
+    setNotes(updated);
+    localStorage.setItem("notes", JSON.stringify(updated));
+    setText("");
+  };
+
+  // handle date click
+  const handleDayClick = (day) => {
+    if (!start) {
+      setStart(day);
+    } else if (!end) {
+      setEnd(day);
     } else {
-      setStartDate(day);
-      setEndDate(null);
+      setStart(day);
+      setEnd(null);
     }
   };
 
-  const isInRange = (day) => {
-    return startDate && endDate && day >= startDate && day <= endDate;
+  const inRange = (day) => {
+    if (!start || !end) return false;
+    return day >= start && day <= end;
   };
 
-  const saveNote = () => {
-    if (!note || !startDate) return;
-
-    const newNote = { startDate, endDate, note };
-    const updated = [...notes, newNote];
-
-    setNotes(updated);
-    localStorage.setItem("notes", JSON.stringify(updated));
-    setNote("");
+  // change month
+  const nextMonth = () => {
+    if (month === 11) {
+      setMonth(0);
+      setYear(year + 1);
+    } else {
+      setMonth(month + 1);
+    }
   };
+
+  const prevMonth = () => {
+    if (month === 0) {
+      setMonth(11);
+      setYear(year - 1);
+    } else {
+      setMonth(month - 1);
+    }
+  };
+
+  // simple days (1–31)
+  const days = Array.from({ length: 31 }, (_, i) => i + 1);
 
   return (
     <div style={{
-      maxWidth: "900px",   // 🔥 BIGGER SIZE
-      margin: "auto",
-      background: "white",
-      padding: "30px",
-      borderRadius: "20px",
-      boxShadow: "0 10px 30px rgba(0,0,0,0.15)"
+      maxWidth: "600px",
+      margin: "40px auto",
+      padding: "20px",
+      borderRadius: "12px",
+      background: "#fff",
+      boxShadow: "0 4px 15px rgba(0,0,0,0.1)"
     }}>
 
-      {/* 🔥 IMAGE CHANGES WITH MONTH */}
+      {/* IMAGE */}
       <img
-        src={images[month]}
+        src={monthImages[month]}
         alt="month"
         style={{
           width: "100%",
-          height: "300px",
+          height: "180px",
           objectFit: "cover",
-          borderRadius: "15px"
+          borderRadius: "10px"
         }}
       />
 
-      {/* MONTH CONTROL */}
+      {/* HEADER */}
       <div style={{
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
-        marginTop: "15px"
+        marginTop: "10px"
       }}>
-        <button onClick={() => setMonth((month - 1 + 12) % 12)}>⬅</button>
-        <h2>{monthNames[month]} 2026</h2>
-        <button onClick={() => setMonth((month + 1) % 12)}>➡</button>
+        <button onClick={prevMonth}>⬅</button>
+        <h3>{months[month]} {year}</h3>
+        <button onClick={nextMonth}>➡</button>
       </div>
 
-      {/* GRID */}
+      {/* CALENDAR */}
       <div style={{
         display: "grid",
         gridTemplateColumns: "repeat(7, 1fr)",
-        gap: "18px",
-        marginTop: "20px"
+        gap: "10px",
+        marginTop: "15px"
       }}>
-        {days.map(day => (
+        {days.map((d) => (
           <div
-            key={day}
-            onClick={() => handleClick(day)}
+            key={d}
+            onClick={() => handleDayClick(d)}
             style={{
-              padding: "20px",
-              borderRadius: "12px",
+              padding: "10px",
               textAlign: "center",
+              borderRadius: "8px",
               cursor: "pointer",
-              fontSize: "18px",
               background:
-                day === startDate
+                d === start
                   ? "green"
-                  : day === endDate
+                  : d === end
                   ? "red"
-                  : isInRange(day)
-                  ? "#87cefa"
+                  : inRange(d)
+                  ? "#add8e6"
                   : "#eee",
               color:
-                day === startDate || day === endDate
-                  ? "white"
-                  : "black"
+                d === start || d === end ? "white" : "black"
             }}
           >
-            {day}
+            {d}
           </div>
         ))}
       </div>
 
-      {/* NOTES */}
-      <div style={{ marginTop: "30px" }}>
-        <h3>Add Note</h3>
-
+      {/* NOTE INPUT */}
+      <div style={{ marginTop: "15px" }}>
         <input
-          value={note}
-          onChange={(e) => setNote(e.target.value)}
-          placeholder="Write your note..."
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          placeholder="Write a note..."
           style={{
             width: "70%",
-            padding: "12px",
-            borderRadius: "10px",
-            border: "1px solid #ccc",
-            marginRight: "10px"
+            padding: "8px",
+            marginRight: "10px",
+            borderRadius: "6px",
+            border: "1px solid #ccc"
           }}
         />
-
-        <button onClick={saveNote} style={{
-          padding: "12px 20px",
-          background: "#007bff",
-          color: "white",
-          border: "none",
-          borderRadius: "10px"
-        }}>
-          Save
-        </button>
+        <button onClick={handleSave}>Save</button>
       </div>
 
-      {/* SAVED NOTES */}
-      <div style={{ marginTop: "20px" }}>
-        <h3>Saved Notes</h3>
+      {/* NOTES LIST */}
+      <div style={{ marginTop: "15px" }}>
         {notes.map((n, i) => (
           <div key={i} style={{
-            background: "#f1f1f1",
-            padding: "12px",
-            borderRadius: "10px",
-            marginBottom: "10px"
+            padding: "6px",
+            marginBottom: "6px",
+            background: "#f2f2f2",
+            borderRadius: "6px"
           }}>
-            📅 {n.startDate} - {n.endDate || n.startDate} : {n.note}
+            {months[n.month]} {n.year} ({n.start}-{n.end || n.start}) : {n.text}
           </div>
         ))}
       </div>
 
     </div>
   );
-};
+}
 
 export default Calendar;
