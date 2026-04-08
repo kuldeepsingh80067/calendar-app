@@ -1,165 +1,98 @@
-/* basic page setup */
-body {
-  margin: 0;
-  font-family: Arial;
-  background-color: #f2f2f2;
+import React, { useState } from "react";
+import "./App.css";
+
+function App() {
+  const [date, setDate] = useState(new Date());
+  const [note, setNote] = useState("");
+  const [notes, setNotes] = useState([]);
+
+  const months = [
+    "January","February","March","April","May","June",
+    "July","August","September","October","November","December"
+  ];
+
+  const year = date.getFullYear();
+  const month = date.getMonth();
+
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+  const changeMonth = (dir) => {
+    setDate(new Date(year, month + dir, 1));
+  };
+
+  const saveNote = () => {
+    if (note.trim() === "") return;
+
+    setNotes([...notes, {
+      text: note,
+      month,
+      year
+    }]);
+
+    setNote("");
+  };
+
+  return (
+    <div className="app">
+
+      {/* 🔥 HOOK + STRING */}
+      <div className="hook"></div>
+      <div className="string"></div>
+
+      {/* 🔥 CALENDAR */}
+      <div className="calendar">
+
+        {/* IMAGE */}
+        <div className="image-box">
+          <img
+            src={`https://source.unsplash.com/600x300/?nature,${months[month]}`}
+            alt="month"
+          />
+        </div>
+
+        {/* NAV */}
+        <div className="nav">
+          <button onClick={() => changeMonth(-1)}>◀</button>
+          <h2>{months[month]} {year}</h2>
+          <button onClick={() => changeMonth(1)}>▶</button>
+        </div>
+
+        {/* WEEK */}
+        <div className="week">
+          <div>Sun</div><div>Mon</div><div>Tue</div>
+          <div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
+        </div>
+
+        {/* DAYS */}
+        <div className="days">
+          {Array.from({ length: daysInMonth }, (_, i) => (
+            <div key={i} className="day">{i + 1}</div>
+          ))}
+        </div>
+
+        {/* NOTES */}
+        <div className="notes">
+          <input
+            value={note}
+            onChange={(e) => setNote(e.target.value)}
+            placeholder="Write note..."
+          />
+          <button onClick={saveNote}>Save</button>
+        </div>
+
+        {/* NOTE LIST */}
+        <div className="note-list">
+          {notes.map((n, i) => (
+            <div key={i}>
+              <b>{months[n.month]} {n.year}</b>
+              <p>{n.text}</p>
+            </div>
+          ))}
+        </div>
+
+      </div>
+    </div>
+  );
 }
 
-/* center the calendar */
-.container {
-  display: flex;
-  justify-content: center;
-  padding: 20px;
-}
-
-/* main box */
-.calendar-wrapper {
-  width: 400px;
-  background: white;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-
-/* image part */
-.image-section {
-  position: relative;
-}
-
-.image-section img {
-  width: 100%;
-  height: 170px;
-  object-fit: cover;
-}
-
-/* month text on image */
-.month-overlay {
-  position: absolute;
-  bottom: 10px;
-  right: 12px;
-  color: white;
-  font-size: 18px;
-  font-weight: bold;
-}
-
-/* inside content */
-.calendar-body {
-  padding: 12px;
-}
-
-/* navigation */
-.nav {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 8px;
-}
-
-.nav button {
-  background: #eee;
-  border: none;
-  padding: 5px 8px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.nav button:hover {
-  background: #ddd;
-}
-
-/* days name */
-.days {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  text-align: center;
-  font-weight: bold;
-  margin-bottom: 5px;
-}
-
-.day-name {
-  padding: 5px;
-  font-size: 13px;
-}
-
-/* calendar grid */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 5px;
-}
-
-/* each day */
-.day {
-  background: #f4f4f4;
-  padding: 8px;
-  text-align: center;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.day:hover {
-  background: #ddd;
-}
-
-/* notes */
-.notes {
-  margin-top: 12px;
-}
-
-.notes input {
-  width: 60%;
-  padding: 6px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-.notes button {
-  padding: 6px 10px;
-  margin-left: 5px;
-  border: none;
-  background: #2196f3;
-  color: white;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-/* saved notes */
-.note-card {
-  margin-top: 8px;
-  background: #f7f7f7;
-  padding: 6px;
-  border-radius: 5px;
-}
-
-/* ===================== */
-/* mobile (simple fix) */
-/* ===================== */
-
-@media (max-width: 500px) {
-
-  .calendar-wrapper {
-    width: 95%;
-  }
-
-  .image-section img {
-    height: 140px;
-  }
-
-  .month-overlay {
-    font-size: 14px;
-  }
-
-  .day {
-    padding: 6px;
-    font-size: 12px;
-  }
-
-  .notes input {
-    width: 100%;
-    margin-bottom: 6px;
-  }
-
-  .notes button {
-    width: 100%;
-    margin-left: 0;
-  }
-}
+export default App;
