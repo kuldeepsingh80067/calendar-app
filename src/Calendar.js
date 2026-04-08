@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 
 function Calendar() {
 
+  // months list
   const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 
+  // simple images (just for UI)
   const images = [
     "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee",
     "https://images.unsplash.com/photo-1501785888041-af3ef285b470",
@@ -19,18 +21,19 @@ function Calendar() {
     "https://images.unsplash.com/photo-1483683804023-6ccdb62f86ef"
   ];
 
+  // get current date
   const today = new Date();
 
   const [month, setMonth] = useState(today.getMonth());
   const [year, setYear] = useState(today.getFullYear());
 
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
+  const [start, setStart] = useState(null);
+  const [end, setEnd] = useState(null);
 
-  const [noteText, setNoteText] = useState("");
+  const [note, setNote] = useState("");
   const [notes, setNotes] = useState([]);
 
-  // load notes
+  // load notes when app starts
   useEffect(() => {
     let data = localStorage.getItem("notes");
     if (data) {
@@ -40,59 +43,91 @@ function Calendar() {
 
   // save note
   function saveNote() {
-    if (!noteText || !startDate) return;
+    if (!note) {
+      alert("write something first");
+      return;
+    }
 
-    let newNote = {
+    if (!start) {
+      alert("select a date first");
+      return;
+    }
+
+    let newItem = {
       month: month,
       year: year,
-      start: startDate,
-      end: endDate,
-      text: noteText
+      start: start,
+      end: end,
+      text: note
     };
 
-    let updated = [...notes, newNote];
+    let updated = [...notes, newItem];
+
     setNotes(updated);
     localStorage.setItem("notes", JSON.stringify(updated));
 
-    setNoteText("");
-    setStartDate(null);
-    setEndDate(null);
+    // reset
+    setNote("");
+    setStart(null);
+    setEnd(null);
   }
 
   // delete note
   function deleteNote(index) {
-    let updated = notes.filter((_, i) => i !== index);
-    setNotes(updated);
-    localStorage.setItem("notes", JSON.stringify(updated));
+    let arr = [...notes];
+    arr.splice(index, 1);
+    setNotes(arr);
+    localStorage.setItem("notes", JSON.stringify(arr));
   }
 
   // edit note
   function editNote(index) {
     let n = notes[index];
 
-    setNoteText(n.text);
-    setStartDate(n.start);
-    setEndDate(n.end);
+    setNote(n.text);
+    setStart(n.start);
+    setEnd(n.end);
 
     deleteNote(index);
   }
 
-  // click date
-  function handleClick(day) {
-    if (!startDate) {
-      setStartDate(day);
-    } else if (!endDate) {
-      setEndDate(day);
+  // when user clicks date
+  function clickDay(day) {
+    if (!start) {
+      setStart(day);
+    } else if (!end) {
+      setEnd(day);
     } else {
-      setStartDate(day);
-      setEndDate(null);
+      setStart(day);
+      setEnd(null);
     }
   }
 
-  function isBetween(day) {
-    if (!startDate || !endDate) return false;
-    return day >= startDate && day <= endDate;
+  // check if day is in range
+  function checkRange(day) {
+    if (!start || !end) return false;
+    return day >= start && day <= end;
   }
+
+  // number of days in month
+  let totalDays = new Date(year, month + 1, 0).getDate();
+
+  // first day (0 = sunday)
+  let firstDay = new Date(year, month, 1).getDay();
+
+  // blanks
+  let blanks = [];
+  for (let i = 0; i < firstDay; i++) {
+    blanks.push(null);
+  }
+
+  // days
+  let days = [];
+  for (let i = 1; i <= totalDays; i++) {
+    days.push(i);
+  }
+
+  let all = [...blanks, ...days];
 
   // next month
   function next() {
@@ -114,14 +149,9 @@ function Calendar() {
     }
   }
 
-  let days = [];
-  for (let i = 1; i <= 31; i++) {
-    days.push(i);
-  }
-
   return (
     <div style={{
-      maxWidth: "550px",
+      maxWidth: "500px",
       margin: "30px auto",
       padding: "15px",
       background: "#fff",
@@ -135,7 +165,7 @@ function Calendar() {
         alt=""
         style={{
           width: "100%",
-          height: "170px",
+          height: "160px",
           objectFit: "cover",
           borderRadius: "8px"
         }}
@@ -152,6 +182,18 @@ function Calendar() {
         <button onClick={next}>▶</button>
       </div>
 
+      {/* weekdays */}
+      <div style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(7,1fr)",
+        marginTop: "10px",
+        fontWeight: "bold"
+      }}>
+        {["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].map((d, i) => (
+          <div key={i} style={{ textAlign: "center" }}>{d}</div>
+        ))}
+      </div>
+
       {/* calendar */}
       <div style={{
         display: "grid",
@@ -159,21 +201,22 @@ function Calendar() {
         gap: "8px",
         marginTop: "10px"
       }}>
-        {days.map((d) => (
+        {all.map((d, i) => (
           <div
-            key={d}
-            onClick={() => handleClick(d)}
+            key={i}
+            onClick={() => d && clickDay(d)}
             style={{
               padding: "8px",
               textAlign: "center",
               borderRadius: "6px",
               background:
-                d === startDate ? "green" :
-                d === endDate ? "red" :
-                isBetween(d) ? "#add8e6" :
+                d === start ? "green" :
+                d === end ? "red" :
+                checkRange(d) ? "#add8e6" :
                 "#eee",
-              color: (d === startDate || d === endDate) ? "white" : "black",
-              cursor: "pointer"
+              color: (d === start || d === end) ? "white" : "black",
+              cursor: d ? "pointer" : "default",
+              opacity: d ? 1 : 0
             }}
           >
             {d}
@@ -184,23 +227,23 @@ function Calendar() {
       {/* input */}
       <div style={{ marginTop: "12px" }}>
         <input
-          value={noteText}
-          onChange={(e) => setNoteText(e.target.value)}
+          value={note}
+          onChange={(e) => setNote(e.target.value)}
           placeholder="Write note..."
-          style={{
-            width: "70%",
-            padding: "6px",
-            marginRight: "8px"
-          }}
+          style={{ width: "65%", padding: "6px" }}
         />
-        <button onClick={saveNote}>Save</button>
+        <button onClick={saveNote} style={{ marginLeft: "5px" }}>
+          Save
+        </button>
       </div>
 
       {/* notes */}
       <div style={{ marginTop: "10px" }}>
+        {notes.length === 0 && <p>No notes</p>}
+
         {notes.map((n, i) => (
           <div key={i} style={{
-            background: "#f4f4f4",
+            background: "#f2f2f2",
             padding: "8px",
             marginBottom: "6px",
             borderRadius: "6px"
@@ -208,6 +251,7 @@ function Calendar() {
             <div>
               {months[n.month]} {n.year} ({n.start}-{n.end || n.start})
             </div>
+
             <b>{n.text}</b>
 
             <div style={{ marginTop: "5px" }}>
