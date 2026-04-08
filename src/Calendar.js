@@ -40,9 +40,13 @@ function App() {
 
     let arr = [];
 
-    for (let i = 0; i < first; i++) arr.push("");
+    for (let i = 0; i < first; i++) {
+      arr.push("");
+    }
 
-    for (let i = 1; i <= total; i++) arr.push(i);
+    for (let i = 1; i <= total; i++) {
+      arr.push(i);
+    }
 
     return arr;
   }
@@ -50,21 +54,18 @@ function App() {
   return (
     <div className="app">
 
-      {/* WALL HOOK */}
+      {/* HOOK */}
       <div className="hook"></div>
 
-      {/* SPIRAL */}
-      <div className="spiral">
-        {Array(20).fill("o").map((_, i) => (
-          <span key={i}>○</span>
-        ))}
-      </div>
+      {/* STRING */}
+      <div className="string"></div>
 
+      {/* CALENDAR */}
       <div className="calendar">
 
         {/* IMAGE */}
         <div className="image-box">
-          <img src={images[month]} />
+          <img src={images[month]} alt="month" />
           <div className="month-text">
             {date.toLocaleString("default", { month: "long" }).toUpperCase()}
             <br />
@@ -72,44 +73,29 @@ function App() {
           </div>
         </div>
 
-        {/* BODY */}
-        <div className="body">
+        {/* NAV */}
+        <div className="nav">
+          <button onClick={prevMonth}>◀</button>
+          <h2>
+            {date.toLocaleString("default", { month: "long" })} {year}
+          </h2>
+          <button onClick={nextMonth}>▶</button>
+        </div>
 
-          {/* NOTES (LEFT SIDE) */}
-          <div className="notes">
-            <h3>Notes</h3>
-            <div className="lines">
-              {Array(6).fill().map((_, i) => (
-                <div key={i} className="line"></div>
-              ))}
+        {/* WEEK */}
+        <div className="week">
+          {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((d) => (
+            <div key={d}>{d}</div>
+          ))}
+        </div>
+
+        {/* DAYS */}
+        <div className="days">
+          {getDays().map((d, i) => (
+            <div key={i} className="day">
+              {d}
             </div>
-          </div>
-
-          {/* CALENDAR */}
-          <div className="grid">
-
-            <div className="nav">
-              <button onClick={prevMonth}>◀</button>
-              <h2>
-                {date.toLocaleString("default", { month: "long" })} {year}
-              </h2>
-              <button onClick={nextMonth}>▶</button>
-            </div>
-
-            <div className="week">
-              {["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].map((d) => (
-                <div key={d}>{d}</div>
-              ))}
-            </div>
-
-            <div className="days">
-              {getDays().map((d, i) => (
-                <div key={i} className="day">{d}</div>
-              ))}
-            </div>
-
-          </div>
-
+          ))}
         </div>
 
       </div>
