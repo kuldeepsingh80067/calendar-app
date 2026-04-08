@@ -1,90 +1,84 @@
 body {
   margin: 0;
-  background: #e6e6e6;
+  background: #dcdcdc; /* wall color */
   font-family: Arial, sans-serif;
 }
 
-/* APP CENTER */
+/* APP */
 .app {
   display: flex;
   justify-content: center;
   align-items: flex-start;
   height: 100vh;
-  padding-top: 80px;
+  padding-top: 120px;
   position: relative;
 }
 
 /* HOOK */
 .hook {
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
   background: #222;
   border-radius: 50%;
   position: absolute;
-  top: 20px;
+  top: 30px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 10;
+
+  box-shadow: 0 3px 8px rgba(0,0,0,0.4);
 }
 
 /* STRING */
 .string {
-  width: 2px;
-  height: 40px;
-  background: #555;
+  width: 3px;
+  height: 60px;
+  background: #444;
   position: absolute;
-  top: 38px;
+  top: 50px;
   left: 50%;
   transform: translateX(-50%);
 }
 
-/* CALENDAR CARD */
+/* CALENDAR */
 .calendar {
   width: 600px;
   background: white;
   border-radius: 12px;
   overflow: hidden;
-  margin-top: 40px;
+  margin-top: 60px;
 
-  /* MAIN EFFECT */
-  box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+  /* 🔥 THIS IS MAIN FIX */
+  box-shadow: 
+    0 50px 80px rgba(0,0,0,0.4),
+    0 10px 20px rgba(0,0,0,0.2);
 
   position: relative;
+
+  /* slight tilt for realism */
+  transform: rotateX(2deg);
 }
 
-/* TOP HOLE */
+/* TOP HOLE (important) */
 .calendar::before {
   content: "";
-  width: 14px;
-  height: 14px;
-  background: #333;
+  width: 18px;
+  height: 18px;
+  background: #222;
   border-radius: 50%;
 
   position: absolute;
-  top: -8px;
+  top: -10px;
   left: 50%;
   transform: translateX(-50%);
+  z-index: 5;
 }
 
 /* IMAGE */
-.image-box {
-  position: relative;
-}
-
 .image-box img {
   width: 100%;
   height: 220px;
   object-fit: cover;
-}
-
-/* MONTH TEXT */
-.month-text {
-  position: absolute;
-  bottom: 10px;
-  right: 15px;
-  color: white;
-  font-size: 22px;
-  font-weight: bold;
 }
 
 /* NAV */
@@ -93,10 +87,6 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-}
-
-.nav button {
-  padding: 6px 10px;
 }
 
 /* WEEK */
@@ -121,20 +111,4 @@ body {
   padding: 10px;
   text-align: center;
   border-radius: 6px;
-}
-
-/* MOBILE */
-@media (max-width: 600px) {
-  .calendar {
-    width: 95%;
-  }
-
-  .day {
-    padding: 6px;
-    font-size: 12px;
-  }
-
-  .image-box img {
-    height: 160px;
-  }
 }
