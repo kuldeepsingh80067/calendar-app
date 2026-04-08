@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  background: #dcdcdc; /* wall color */
+  background: #e5e5e5;
   font-family: Arial, sans-serif;
 }
 
@@ -16,71 +16,61 @@ body {
 
 /* HOOK */
 .hook {
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
   background: #222;
   border-radius: 50%;
-
   position: absolute;
-  top: 20px;   /* 🔥 FIXED */
+  top: 20px;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 999;  /* 🔥 IMPORTANT */
-
-  box-shadow: 0 3px 8px rgba(0,0,0,0.4);
+  z-index: 10;
 }
 
 /* STRING */
 .string {
   width: 3px;
-  height: 80px;
-
+  height: 90px;
   background: #444;
   position: absolute;
-  top: 40px;   /* 🔥 FIXED */
+  top: 42px;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 999;
+  z-index: 9;
 }
 
 /* CALENDAR */
 .calendar {
-  width: 600px;
+  width: 360px;
   background: white;
   border-radius: 12px;
   overflow: hidden;
-  margin-top: 80px;
-
-  /* 🔥 THIS IS MAIN FIX */
-  box-shadow: 
-    0 50px 80px rgba(0,0,0,0.4),
-    0 10px 20px rgba(0,0,0,0.2);
-
   position: relative;
 
-  /* slight tilt for realism */
-  transform: rotateX(2deg);
+  box-shadow: 
+    0 40px 70px rgba(0,0,0,0.35),
+    0 10px 20px rgba(0,0,0,0.2);
+
+  transform: rotateX(5deg);
 }
 
-/* TOP HOLE (important) */
+/* HOLE */
 .calendar::before {
   content: "";
-  width: 18px;
-  height: 18px;
+  width: 14px;
+  height: 14px;
   background: #222;
   border-radius: 50%;
-
   position: absolute;
-  top: -10px;
+  top: -7px;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 5;
 }
 
 /* IMAGE */
 .image-box img {
   width: 100%;
-  height: 220px;
+  height: 170px;
   object-fit: cover;
 }
 
@@ -92,26 +82,54 @@ body {
   padding: 10px;
 }
 
+.nav button {
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
 /* WEEK */
 .week {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  padding: 10px;
-  font-weight: bold;
   text-align: center;
+  font-weight: bold;
+  padding: 5px;
 }
 
 /* DAYS */
 .days {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 8px;
+  gap: 6px;
   padding: 10px;
 }
 
 .day {
-  background: #f0f0f0;
+  background: #f2f2f2;
   padding: 10px;
   text-align: center;
+  border-radius: 6px;
+}
+
+/* NOTES */
+.note-box {
+  display: flex;
+  padding: 10px;
+  gap: 5px;
+}
+
+.note-box input {
+  flex: 1;
+  padding: 6px;
+}
+
+.notes {
+  padding: 10px;
+}
+
+.note-item {
+  background: #f7f7f7;
+  padding: 8px;
+  margin-top: 8px;
   border-radius: 6px;
 }
