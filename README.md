@@ -1,54 +1,31 @@
-# 📅 Interactive Calendar Component (Frontend Engineering Challenge)
+# 📅 Interactive Calendar Component
 
 ## 🚀 Overview
 
-This project is a polished and interactive calendar component built using React.
-It replicates a **wall calendar UI** and includes modern features like date range selection and notes management.
+This project is a simple interactive calendar built using React.
+It allows users to select a date range, add notes, and view them later.
 
-The objective was to convert a static design into a **fully functional, responsive, and user-friendly web component**.
+The goal was to build a clean and functional UI while handling user interaction and state properly.
 
 ---
 
 ## ✨ Features
 
-### 📆 Date Range Selection
-
-* Select a **start date** and **end date**
-* Automatically highlights all dates in between
-* Visual indicators:
-
-  * 🟢 Start Date
-  * 🔴 End Date
-  * 🔵 Selected Range
-
-### 📝 Notes Management
-
-* Add notes for selected dates or ranges
-* Notes are displayed below the calendar
-* Each note is linked to its respective date(s)
-
-### 💾 Data Persistence
-
-* Uses **localStorage**
-* Notes remain saved even after refreshing the page
-
-### 🖼️ Wall Calendar UI
-
-* Includes a **hero image** at the top
-* Clean and modern design inspired by a physical calendar
-
-### 📱 Responsive Design
-
-* Works on both **desktop and mobile**
-* Layout adapts automatically to screen size
+* 📆 Select start and end date (range selection)
+* 🎨 Highlight selected dates
+* 📝 Add, edit, and delete notes
+* 💾 Data stored using localStorage
+* 🖼️ Dynamic image changes based on month
+* 🔄 Month navigation (previous / next)
+* 📱 Fully responsive (works on mobile and desktop)
 
 ---
 
 ## 🛠️ Tech Stack
 
 * React (JavaScript)
-* CSS (Inline Styling)
-* Browser localStorage
+* CSS
+* localStorage (for saving notes)
 
 ---
 
@@ -64,25 +41,41 @@ http://localhost:3000
 
 ---
 
-## 🎥 Demo Video
-
-(Add your demo video link here)
-
----
-
 ## 🌐 Live Demo
 
-(Add your deployed link here)
+https://calendar-app-seven-hazel.vercel.app/
 
 ---
 
-## 📌 Key Learnings
+## 🎥 Demo Video
 
-* React state management using useState
-* Handling user interactions
-* Working with localStorage
-* Building responsive UI
-* Structuring reusable components
+(Add your video link here)
+
+---
+
+## 📌 Project Structure
+
+* App.js → Main logic and UI
+* App.css → Styling and responsiveness
+
+---
+
+## 🧠 What I Learned
+
+* Managing state using React hooks
+* Handling user interactions (click, input)
+* Building responsive layouts
+* Using localStorage for data persistence
+* Working with JavaScript Date object
+
+---
+
+## 🔮 Future Improvements
+
+* Add real-time events (backend integration)
+* Improve UI with animations
+* Add dark mode
+* Add calendar navigation (year selector)
 
 ---
 
@@ -94,5 +87,6 @@ Kuldeep Singh
 
 ## 🏁 Conclusion
 
-This project demonstrates strong frontend development skills including UI design, interactivity, and responsiveness.
-It successfully fulfills all requirements of the frontend engineering challenge.
+This project helped me understand how to build interactive UI components and manage state effectively in React.
+I focused on keeping the code simple and user-friendly.
+
