@@ -1,8 +1,16 @@
-import React from "react";
-import Calendar from "./Calendar";
+<div className="container">
+  <div className="calendar-wrapper">
 
-function App() {
-  return <Calendar />;
-}
+    <div className="image-section">
+      <img src={images[month]} alt="calendar" />
+      <div className="month-overlay">
+        {months[month]} {year}
+      </div>
+    </div>
 
-export default App;
+    <div className="calendar-body">
+      {/* buttons + grid + notes */}
+    </div>
+
+  </div>
+</div>
