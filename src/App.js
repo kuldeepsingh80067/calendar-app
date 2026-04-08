@@ -5,7 +5,7 @@ import Calendar from "./Calendar";
 function App() {
   return (
     <div className="app">
-      {/* Hook */}
+      {/* Hanging hook */}
       <div className="hook"></div>
 
       {/* String */}

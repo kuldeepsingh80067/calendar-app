@@ -26,6 +26,10 @@ function Calendar() {
   const [note, setNote] = useState("");
   const [notes, setNotes] = useState([]);
 
+  // 🔥 NEW: Range selection
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+
   const daysInMonth = new Date(year, month + 1, 0).getDate();
 
   const handlePrev = () => {
@@ -35,6 +39,8 @@ function Calendar() {
     } else {
       setMonth(month - 1);
     }
+    setStartDate(null);
+    setEndDate(null);
   };
 
   const handleNext = () => {
@@ -44,19 +50,38 @@ function Calendar() {
     } else {
       setMonth(month + 1);
     }
+    setStartDate(null);
+    setEndDate(null);
+  };
+
+  // 🔥 Range logic
+  const handleDayClick = (day) => {
+    if (!startDate || (startDate && endDate)) {
+      setStartDate(day);
+      setEndDate(null);
+    } else {
+      if (day < startDate) {
+        setEndDate(startDate);
+        setStartDate(day);
+      } else {
+        setEndDate(day);
+      }
+    }
   };
 
   const handleSave = () => {
-    if (note.trim() === "") return;
+    if (!note.trim()) return;
 
     setNotes([
       ...notes,
       {
         text: note,
         month: monthNames[month],
-        year: year
+        year: year,
+        range: startDate && endDate ? `${startDate}-${endDate}` : startDate
       }
     ]);
+
     setNote("");
   };
 
@@ -68,7 +93,7 @@ function Calendar() {
 
   return (
     <div className="calendar">
-      
+
       {/* IMAGE */}
       <div className="image-box">
         <img src={images[month]} alt="month" />
@@ -89,10 +114,40 @@ function Calendar() {
 
       {/* DAYS */}
       <div className="days">
-        {Array.from({ length: daysInMonth }, (_, i) => (
-          <div key={i} className="day">{i + 1}</div>
-        ))}
+        {Array.from({ length: daysInMonth }, (_, i) => {
+          const day = i + 1;
+
+          const isSelected =
+            startDate &&
+            endDate &&
+            day >= startDate &&
+            day <= endDate;
+
+          const isStart = day === startDate;
+          const isEnd = day === endDate;
+
+          return (
+            <div
+              key={i}
+              className={`day 
+                ${isSelected ? "selected" : ""} 
+                ${isStart ? "start" : ""} 
+                ${isEnd ? "end" : ""}`}
+              onClick={() => handleDayClick(day)}
+            >
+              {day}
+            </div>
+          );
+        })}
       </div>
+
+      {/* SELECTED TEXT */}
+      {startDate && (
+        <p className="selected-text">
+          Selected: {startDate}
+          {endDate ? ` - ${endDate}` : ""}
+        </p>
+      )}
 
       {/* NOTE INPUT */}
       <div className="note-box">
@@ -109,7 +164,7 @@ function Calendar() {
       <div className="notes">
         {notes.map((n, i) => (
           <div key={i} className="note-item">
-            <p>{n.month} {n.year}</p>
+            <p>{n.month} {n.year} ({n.range})</p>
             <strong>{n.text}</strong>
             <button onClick={() => handleDelete(i)}>Delete</button>
           </div>
