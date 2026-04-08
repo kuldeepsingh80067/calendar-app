@@ -1,176 +1,115 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./App.css";
 
 function App() {
-  // current date
-  const [currentDate, setCurrentDate] = useState(new Date());
+  const [date, setDate] = useState(new Date());
 
-  // note input
-  const [text, setText] = useState("");
+  let month = date.getMonth();
+  let year = date.getFullYear();
 
-  // notes list
-  const [allNotes, setAllNotes] = useState([]);
-
-  // load saved notes
-  useEffect(() => {
-    let data = localStorage.getItem("notes");
-    if (data) {
-      setAllNotes(JSON.parse(data));
-    }
-  }, []);
-
-  // save notes
-  useEffect(() => {
-    localStorage.setItem("notes", JSON.stringify(allNotes));
-  }, [allNotes]);
-
-  let month = currentDate.getMonth();
-  let year = currentDate.getFullYear();
-
-  // simple images (intern style hardcoded)
-  let images = [
-    "https://source.unsplash.com/800x300/?winter",
-    "https://source.unsplash.com/800x300/?snow",
-    "https://source.unsplash.com/800x300/?spring",
-    "https://source.unsplash.com/800x300/?beach",
-    "https://source.unsplash.com/800x300/?mountain",
-    "https://source.unsplash.com/800x300/?summer",
-    "https://source.unsplash.com/800x300/?forest",
-    "https://source.unsplash.com/800x300/?nature",
-    "https://source.unsplash.com/800x300/?office",
-    "https://source.unsplash.com/800x300/?autumn",
-    "https://source.unsplash.com/800x300/?festival",
-    "https://source.unsplash.com/800x300/?christmas",
+  const images = [
+    "https://source.unsplash.com/900x400/?mountain",
+    "https://source.unsplash.com/900x400/?snow",
+    "https://source.unsplash.com/900x400/?spring",
+    "https://source.unsplash.com/900x400/?beach",
+    "https://source.unsplash.com/900x400/?nature",
+    "https://source.unsplash.com/900x400/?summer",
+    "https://source.unsplash.com/900x400/?forest",
+    "https://source.unsplash.com/900x400/?travel",
+    "https://source.unsplash.com/900x400/?workspace",
+    "https://source.unsplash.com/900x400/?autumn",
+    "https://source.unsplash.com/900x400/?festival",
+    "https://source.unsplash.com/900x400/?christmas",
   ];
 
-  // get days
+  function nextMonth() {
+    let d = new Date(date);
+    d.setMonth(month + 1);
+    setDate(d);
+  }
+
+  function prevMonth() {
+    let d = new Date(date);
+    d.setMonth(month - 1);
+    setDate(d);
+  }
+
   function getDays() {
-    let firstDay = new Date(year, month, 1).getDay();
-    let totalDays = new Date(year, month + 1, 0).getDate();
+    let first = new Date(year, month, 1).getDay();
+    let total = new Date(year, month + 1, 0).getDate();
 
     let arr = [];
 
-    for (let i = 0; i < firstDay; i++) {
-      arr.push("");
-    }
+    for (let i = 0; i < first; i++) arr.push("");
 
-    for (let i = 1; i <= totalDays; i++) {
-      arr.push(i);
-    }
+    for (let i = 1; i <= total; i++) arr.push(i);
 
     return arr;
   }
 
-  // next month
-  function nextMonth() {
-    let d = new Date(currentDate);
-    d.setMonth(month + 1);
-    setCurrentDate(d);
-  }
-
-  // prev month
-  function prevMonth() {
-    let d = new Date(currentDate);
-    d.setMonth(month - 1);
-    setCurrentDate(d);
-  }
-
-  // add note
-  function saveNote() {
-    if (text === "") return;
-
-    let obj = {
-      id: Date.now(),
-      text: text,
-      month: month,
-      year: year,
-    };
-
-    setAllNotes([...allNotes, obj]);
-    setText("");
-  }
-
-  // delete
-  function deleteNote(id) {
-    let newList = allNotes.filter((n) => n.id !== id);
-    setAllNotes(newList);
-  }
-
-  // edit
-  function editNote(id) {
-    let newText = prompt("Edit note");
-    if (!newText) return;
-
-    let updated = allNotes.map((n) => {
-      if (n.id === id) {
-        return { ...n, text: newText };
-      }
-      return n;
-    });
-
-    setAllNotes(updated);
-  }
-
   return (
     <div className="app">
+
+      {/* WALL HOOK */}
+      <div className="hook"></div>
+
+      {/* SPIRAL */}
+      <div className="spiral">
+        {Array(20).fill("o").map((_, i) => (
+          <span key={i}>○</span>
+        ))}
+      </div>
+
       <div className="calendar">
 
         {/* IMAGE */}
-        <img src={images[month]} className="top-img" />
-
-        {/* TITLE */}
-        <div className="title">
-          <button onClick={prevMonth}>◀</button>
-
-          <h2>
-            {currentDate.toLocaleString("default", { month: "long" })} {year}
-          </h2>
-
-          <button onClick={nextMonth}>▶</button>
+        <div className="image-box">
+          <img src={images[month]} />
+          <div className="month-text">
+            {date.toLocaleString("default", { month: "long" }).toUpperCase()}
+            <br />
+            {year}
+          </div>
         </div>
 
-        {/* WEEK */}
-        <div className="week">
-          <div>Sun</div>
-          <div>Mon</div>
-          <div>Tue</div>
-          <div>Wed</div>
-          <div>Thu</div>
-          <div>Fri</div>
-          <div>Sat</div>
-        </div>
+        {/* BODY */}
+        <div className="body">
 
-        {/* DAYS */}
-        <div className="days">
-          {getDays().map((d, i) => (
-            <div key={i} className="box">
-              {d}
+          {/* NOTES (LEFT SIDE) */}
+          <div className="notes">
+            <h3>Notes</h3>
+            <div className="lines">
+              {Array(6).fill().map((_, i) => (
+                <div key={i} className="line"></div>
+              ))}
             </div>
-          ))}
-        </div>
+          </div>
 
-        {/* INPUT */}
-        <div className="input-box">
-          <input
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            placeholder="Write note..."
-          />
-          <button onClick={saveNote}>Save</button>
-        </div>
+          {/* CALENDAR */}
+          <div className="grid">
 
-        {/* NOTES */}
-        <div className="notes">
-          {allNotes
-            .filter((n) => n.month === month && n.year === year)
-            .map((n) => (
-              <div key={n.id} className="note">
-                <p>{n.text}</p>
+            <div className="nav">
+              <button onClick={prevMonth}>◀</button>
+              <h2>
+                {date.toLocaleString("default", { month: "long" })} {year}
+              </h2>
+              <button onClick={nextMonth}>▶</button>
+            </div>
 
-                <button onClick={() => editNote(n.id)}>Edit</button>
-                <button onClick={() => deleteNote(n.id)}>Delete</button>
-              </div>
-            ))}
+            <div className="week">
+              {["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].map((d) => (
+                <div key={d}>{d}</div>
+              ))}
+            </div>
+
+            <div className="days">
+              {getDays().map((d, i) => (
+                <div key={i} className="day">{d}</div>
+              ))}
+            </div>
+
+          </div>
+
         </div>
 
       </div>
