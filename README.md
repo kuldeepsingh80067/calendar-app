@@ -70,8 +70,7 @@ http://localhost:3000
 ---
 
 ## Live Demo
-
-https://YOUR-VERCEL-LINK.vercel.app
+https://calendar-app-seven-hazel.vercel.app/
 
 ---
 
