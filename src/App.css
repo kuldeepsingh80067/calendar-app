@@ -110,30 +110,30 @@ body {
   text-align: center;
   border-radius: 6px;
   cursor: pointer;
+  .day:hover {
+  transform: scale(1.05);
+  transition: 0.2s;
+}
 }
 
 /* RANGE COLORS */
-.day.selected {
-  background: #cce5ff;
-}
-
+/* START DATE (FIRST CLICK) */
 .day.start {
-  background: #007bff;
+  background: #ff4d4f;   /* RED */
   color: white;
   font-weight: bold;
 }
 
+/* END DATE (LAST CLICK) */
 .day.end {
-  background: #0056b3;
+  background: #1677ff;   /* BLUE */
   color: white;
   font-weight: bold;
 }
 
-/* SELECTED TEXT */
-.selected-text {
-  text-align: center;
-  font-size: 14px;
-  color: #333;
+/* MIDDLE RANGE */
+.day.selected {
+  background: #cce5ff;   /* LIGHT BLUE */
 }
 
 /* NOTES */
