@@ -1,92 +1,94 @@
-# 📅 Interactive Calendar Component
+# 📅 Wall Calendar App
 
-## 🚀 Overview
+## Overview
 
-This project is a simple interactive calendar built using React.
-It allows users to select a date range, add notes, and view them later.
+This project is an interactive calendar built using React.
+The goal was to create a UI that looks like a **real wall calendar**, instead of a basic grid.
 
-The goal was to build a clean and functional UI while handling user interaction and state properly.
-
----
-
-## ✨ Features
-
-* 📆 Select start and end date (range selection)
-* 🎨 Highlight selected dates
-* 📝 Add, edit, and delete notes
-* 💾 Data stored using localStorage
-* 🖼️ Dynamic image changes based on month
-* 🔄 Month navigation (previous / next)
-* 📱 Fully responsive (works on mobile and desktop)
+It includes a hanging effect, a top image for each month, and simple features like selecting dates and adding notes.
 
 ---
 
-## 🛠️ Tech Stack
+## Features
 
-* React (JavaScript)
+* Navigate between months
+* Select a range of dates
+* Add notes for selected dates
+* Different image for each month
+* Responsive design (works on mobile and desktop)
+
+---
+
+## Design Approach
+
+I tried to make the calendar look like something you would hang on a wall.
+
+So I added:
+
+* A hook and string at the top
+* A card-style layout
+* A hero image above the calendar
+* Soft shadows for a realistic feel
+
+The idea was to keep it simple but visually appealing.
+
+---
+
+## Tech Stack
+
+* React.js
+* JavaScript
 * CSS
-* localStorage (for saving notes)
 
 ---
 
-## ⚙️ How to Run Locally
+## How to Run Locally
+
+Clone the repository:
+
+```bash
+git clone https://github.com/YOUR_USERNAME/calendar-app.git
+cd calendar-app
+```
+
+Install dependencies:
 
 ```bash
 npm install
+```
+
+Start the app:
+
+```bash
 npm start
 ```
 
-Then open:
+Open in browser:
+
 http://localhost:3000
 
 ---
 
-## 🌐 Live Demo
+## Live Demo
 
-https://calendar-app-seven-hazel.vercel.app/
-
----
-
-## 🎥 Demo Video
-
-(Add your video link here)
+https://YOUR-VERCEL-LINK.vercel.app
 
 ---
 
-## 📌 Project Structure
+## Video Demonstration
 
-* App.js → Main logic and UI
-* App.css → Styling and responsiveness
-
----
-
-## 🧠 What I Learned
-
-* Managing state using React hooks
-* Handling user interactions (click, input)
-* Building responsive layouts
-* Using localStorage for data persistence
-* Working with JavaScript Date object
+https://YOUR-VIDEO-LINK
 
 ---
 
-## 🔮 Future Improvements
+## Notes
 
-* Add real-time events (backend integration)
-* Improve UI with animations
-* Add dark mode
-* Add calendar navigation (year selector)
+* Start date is shown in red
+* End date is shown in blue
+* Selected range is shown in light blue
 
 ---
 
-## 👨‍💻 Author
+## Author
 
 Kuldeep Singh
-
----
-
-## 🏁 Conclusion
-
-This project helped me understand how to build interactive UI components and manage state effectively in React.
-I focused on keeping the code simple and user-friendly.
-
