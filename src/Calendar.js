@@ -1,102 +1,181 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 
-const months = [
-  "January","February","March","April","May","June",
-  "July","August","September","October","November","December"
-];
+function App() {
+  // current date
+  const [currentDate, setCurrentDate] = useState(new Date());
 
-const images = [
-  "https://source.unsplash.com/800x400/?winter",
-  "https://source.unsplash.com/800x400/?snow",
-  "https://source.unsplash.com/800x400/?spring",
-  "https://source.unsplash.com/800x400/?flowers",
-  "https://source.unsplash.com/800x400/?mountains",
-  "https://source.unsplash.com/800x400/?beach",
-  "https://source.unsplash.com/800x400/?forest",
-  "https://source.unsplash.com/800x400/?nature",
-  "https://source.unsplash.com/800x400/?autumn",
-  "https://source.unsplash.com/800x400/?city",
-  "https://source.unsplash.com/800x400/?festival",
-  "https://source.unsplash.com/800x400/?christmas"
-];
+  // note input
+  const [text, setText] = useState("");
 
-function Calendar() {
-  const today = new Date();
+  // notes list
+  const [allNotes, setAllNotes] = useState([]);
 
-  const [month, setMonth] = useState(today.getMonth());
-  const [year, setYear] = useState(today.getFullYear());
-
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
-  const firstDay = new Date(year, month, 1).getDay();
-
-  const prev = () => {
-    if (month === 0) {
-      setMonth(11);
-      setYear(year - 1);
-    } else {
-      setMonth(month - 1);
+  // load saved notes
+  useEffect(() => {
+    let data = localStorage.getItem("notes");
+    if (data) {
+      setAllNotes(JSON.parse(data));
     }
-  };
+  }, []);
 
-  const next = () => {
-    if (month === 11) {
-      setMonth(0);
-      setYear(year + 1);
-    } else {
-      setMonth(month + 1);
+  // save notes
+  useEffect(() => {
+    localStorage.setItem("notes", JSON.stringify(allNotes));
+  }, [allNotes]);
+
+  let month = currentDate.getMonth();
+  let year = currentDate.getFullYear();
+
+  // simple images (intern style hardcoded)
+  let images = [
+    "https://source.unsplash.com/800x300/?winter",
+    "https://source.unsplash.com/800x300/?snow",
+    "https://source.unsplash.com/800x300/?spring",
+    "https://source.unsplash.com/800x300/?beach",
+    "https://source.unsplash.com/800x300/?mountain",
+    "https://source.unsplash.com/800x300/?summer",
+    "https://source.unsplash.com/800x300/?forest",
+    "https://source.unsplash.com/800x300/?nature",
+    "https://source.unsplash.com/800x300/?office",
+    "https://source.unsplash.com/800x300/?autumn",
+    "https://source.unsplash.com/800x300/?festival",
+    "https://source.unsplash.com/800x300/?christmas",
+  ];
+
+  // get days
+  function getDays() {
+    let firstDay = new Date(year, month, 1).getDay();
+    let totalDays = new Date(year, month + 1, 0).getDate();
+
+    let arr = [];
+
+    for (let i = 0; i < firstDay; i++) {
+      arr.push("");
     }
-  };
 
-  // create blank spaces + days
-  let days = [];
-  for (let i = 0; i < firstDay; i++) days.push("");
-  for (let i = 1; i <= daysInMonth; i++) days.push(i);
+    for (let i = 1; i <= totalDays; i++) {
+      arr.push(i);
+    }
+
+    return arr;
+  }
+
+  // next month
+  function nextMonth() {
+    let d = new Date(currentDate);
+    d.setMonth(month + 1);
+    setCurrentDate(d);
+  }
+
+  // prev month
+  function prevMonth() {
+    let d = new Date(currentDate);
+    d.setMonth(month - 1);
+    setCurrentDate(d);
+  }
+
+  // add note
+  function saveNote() {
+    if (text === "") return;
+
+    let obj = {
+      id: Date.now(),
+      text: text,
+      month: month,
+      year: year,
+    };
+
+    setAllNotes([...allNotes, obj]);
+    setText("");
+  }
+
+  // delete
+  function deleteNote(id) {
+    let newList = allNotes.filter((n) => n.id !== id);
+    setAllNotes(newList);
+  }
+
+  // edit
+  function editNote(id) {
+    let newText = prompt("Edit note");
+    if (!newText) return;
+
+    let updated = allNotes.map((n) => {
+      if (n.id === id) {
+        return { ...n, text: newText };
+      }
+      return n;
+    });
+
+    setAllNotes(updated);
+  }
 
   return (
-    <div className="container">
+    <div className="app">
+      <div className="calendar">
 
-      <div className="calendar-wrapper">
+        {/* IMAGE */}
+        <img src={images[month]} className="top-img" />
 
-        {/* TOP IMAGE (LIKE WALL CALENDAR) */}
-        <div className="image-section">
-          <img src={images[month]} alt="calendar" />
-          <div className="month-text">
-            {months[month]} {year}
-          </div>
+        {/* TITLE */}
+        <div className="title">
+          <button onClick={prevMonth}>◀</button>
+
+          <h2>
+            {currentDate.toLocaleString("default", { month: "long" })} {year}
+          </h2>
+
+          <button onClick={nextMonth}>▶</button>
         </div>
 
-        {/* CALENDAR BODY */}
-        <div className="calendar-body">
+        {/* WEEK */}
+        <div className="week">
+          <div>Sun</div>
+          <div>Mon</div>
+          <div>Tue</div>
+          <div>Wed</div>
+          <div>Thu</div>
+          <div>Fri</div>
+          <div>Sat</div>
+        </div>
 
-          {/* navigation */}
-          <div className="nav">
-            <button onClick={prev}>◀</button>
-            <button onClick={next}>▶</button>
-          </div>
+        {/* DAYS */}
+        <div className="days">
+          {getDays().map((d, i) => (
+            <div key={i} className="box">
+              {d}
+            </div>
+          ))}
+        </div>
 
-          {/* weekdays */}
-          <div className="days">
-            {["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].map((d) => (
-              <div key={d}>{d}</div>
-            ))}
-          </div>
+        {/* INPUT */}
+        <div className="input-box">
+          <input
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            placeholder="Write note..."
+          />
+          <button onClick={saveNote}>Save</button>
+        </div>
 
-          {/* grid */}
-          <div className="grid">
-            {days.map((d, i) => (
-              <div key={i} className="day">
-                {d}
+        {/* NOTES */}
+        <div className="notes">
+          {allNotes
+            .filter((n) => n.month === month && n.year === year)
+            .map((n) => (
+              <div key={n.id} className="note">
+                <p>{n.text}</p>
+
+                <button onClick={() => editNote(n.id)}>Edit</button>
+                <button onClick={() => deleteNote(n.id)}>Delete</button>
               </div>
             ))}
-          </div>
-
         </div>
 
       </div>
-
     </div>
   );
 }
 
-export default Calendar;
+export default App;
