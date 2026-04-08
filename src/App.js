@@ -10,7 +10,7 @@ function App() {
 
       {/* String */}
       <div className="string"></div>
-
+range: {startDate && endDate ? `${startDate}-${endDate}` : startDate}
       {/* Calendar */}
       <Calendar />
     </div>
