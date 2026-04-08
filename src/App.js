@@ -5,12 +5,14 @@ import Calendar from "./Calendar";
 function App() {
   return (
     <div className="app">
+      {/* Hanging hook */}
       <div className="hook"></div>
-      <div className="string"></div>
 
-      <div className="container">
-        <Calendar />
-      </div>
+      {/* String */}
+      <div className="string"></div>
+range: {startDate && endDate ? `${startDate}-${endDate}` : startDate}
+      {/* Calendar */}
+      <Calendar />
     </div>
   );
 }
