@@ -1,70 +1,98 @@
-# Getting Started with Create React App
+# 📅 Interactive Calendar Component (Frontend Engineering Challenge)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 🚀 Overview
 
-## Available Scripts
+This project is a polished and interactive calendar component built using React.
+It replicates a **wall calendar UI** and includes modern features like date range selection and notes management.
 
-In the project directory, you can run:
+The objective was to convert a static design into a **fully functional, responsive, and user-friendly web component**.
 
-### `npm start`
+---
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## ✨ Features
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### 📆 Date Range Selection
 
-### `npm test`
+* Select a **start date** and **end date**
+* Automatically highlights all dates in between
+* Visual indicators:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+  * 🟢 Start Date
+  * 🔴 End Date
+  * 🔵 Selected Range
 
-### `npm run build`
+### 📝 Notes Management
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+* Add notes for selected dates or ranges
+* Notes are displayed below the calendar
+* Each note is linked to its respective date(s)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### 💾 Data Persistence
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+* Uses **localStorage**
+* Notes remain saved even after refreshing the page
 
-### `npm run eject`
+### 🖼️ Wall Calendar UI
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+* Includes a **hero image** at the top
+* Clean and modern design inspired by a physical calendar
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### 📱 Responsive Design
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+* Works on both **desktop and mobile**
+* Layout adapts automatically to screen size
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+---
 
-## Learn More
+## 🛠️ Tech Stack
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+* React (JavaScript)
+* CSS (Inline Styling)
+* Browser localStorage
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+---
 
-### Code Splitting
+## ⚙️ How to Run Locally
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+```bash
+npm install
+npm start
+```
 
-### Analyzing the Bundle Size
+Then open:
+http://localhost:3000
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+---
 
-### Making a Progressive Web App
+## 🎥 Demo Video
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+(Add your demo video link here)
 
-### Advanced Configuration
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## 🌐 Live Demo
 
-### Deployment
+(Add your deployed link here)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+---
 
-### `npm run build` fails to minify
+## 📌 Key Learnings
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+* React state management using useState
+* Handling user interactions
+* Working with localStorage
+* Building responsive UI
+* Structuring reusable components
+
+---
+
+## 👨‍💻 Author
+
+Kuldeep Singh
+
+---
+
+## 🏁 Conclusion
+
+This project demonstrates strong frontend development skills including UI design, interactivity, and responsiveness.
+It successfully fulfills all requirements of the frontend engineering challenge.
