@@ -22,7 +22,7 @@ const images = [
 
 function Calendar() {
   const [month, setMonth] = useState(new Date().getMonth());
-  const [year, setYear] = useState(new Date().getFullYear());
+  const [year] = useState(new Date().getFullYear());
 
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
